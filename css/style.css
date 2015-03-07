@@ -1,0 +1,177 @@
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	width: 100%;
+	margin: 0px;
+	overflow-x: hidden;
+}
+
+a {
+	color: #EFDD6F;
+}
+
+:after, :before {
+	box-sizing: border-box;
+}
+
+.section {
+	box-sizing: border-box;
+	padding: 1.5em 3em;
+	overflow: hidden;
+}
+
+.top-section {
+	position: relative;
+	background-color: #2E9AFE;
+	background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+	/*background-image: url("http://www.discprofiles.com/blog/wp-content/uploads/2012/12/meeting-iStock.jpg");*/
+	background-image: url("http://4.bp.blogspot.com/-xbE_iWqYt8U/TcgCqdJaxTI/AAAAAAAAB80/hxiAAsJkx54/s1600/Al+AinThe+desert%25E2%2580%2599s+oasis+in+UAE.jpg");
+	padding: 3em;
+}
+
+.registration-section {
+	position: relative;
+	margin: 0 -3em -3em -3em;
+}
+
+.registration-section .bg {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	margin: 0 -3em -3em -3em;
+	opacity: 0.6;
+}
+
+.registration-section .container {
+	padding-top: 3em;
+}
+
+.more-section {
+	position: relative;
+	background-color: #E49135;
+}
+
+.row .site-desc {
+	color: #FFF;
+	text-align: center;
+	float: none;
+	margin: 1em auto 0 auto;
+	font-size: 12pt;
+}
+
+.row .more {
+	text-align: center;
+	color: #FFF;
+}
+
+.site-name {
+	float: none;
+	margin: 0 auto;
+}
+
+.site-name h1 {
+	color: #fff;
+	font-size: 24pt;
+	text-shadow: 0 1px 10px rgba(0,0,0,0.5);
+}
+
+.sign-in-form {
+	float: none;
+	margin: 0 auto;
+}
+
+.sign-in {
+	float: none;
+	margin: 0 auto;
+	position: relative;
+	text-align: center;
+}
+
+.sign-up p {
+	text-align: center;
+	color: #FFF;
+}
+
+.quote {
+	padding: 1em;
+	color: #fff;
+	position: relative;
+	text-align: center;
+	float: none;
+	text-shadow: 0 1px 10px rgba(0,0,0,0.5);
+	margin: 1em auto 0 auto;
+	font-size: 36pt;
+}
+
+.btn-primary {
+	border-color: #BA6222;
+	background-color: #7B4A12;
+}
+
+.btn-primary:hover {
+	border-color: #BA6222;
+	background-color: #EFDD6F;
+}
+
+footer {
+	background-image: url("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRtmwp2Y8aszMzwxIte6fvjUAuKEOsgxTSAoGacKwkKCQZ2jAPb");
+	text-align: center;
+	color: #7B4A12;
+}
+
+.footer-section {
+	
+}
+
+.devs {
+	position: relative;
+	display: inline;
+}
+
+.dev {
+	display: inline-block;
+	padding: 2em;
+}
+
+.dev img {
+	width: 8em;
+	height: 8em;
+}
+
+.dev h5 {
+	text-align: center;
+}
+
+.copyright-info {
+	padding-top: 3em;
+}
+
+.slack-info img {
+	height: 5em;
+}
+
+.slack-name {
+	font-size: 36pt;
+	vertical-align: middle;
+	margin-left: 0.25em;
+}
+
+@media (max-width: 767px) {
+	.quote {
+		font-size: 18pt;
+	}
+}
+
+@media (max-width: 480px) {
+	.quote {
+		font-size: 12pt;
+	}
+}
+
+
