@@ -1,0 +1,75 @@
+ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	margin-top: 1em;
+}
+
+li {
+	margin-top: 0.5em;
+}
+
+.chat-bg {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+}
+
+.side-bar {
+	background-color: #333333;
+	height: 100%;
+
+}
+
+#left-bar {
+	float: left;
+}
+
+#right-bar {
+	float: right;
+}
+
+.chat-area {
+	position: relative;
+	background-color: #fff;
+	height: 100%;
+}
+
+.channel-name {
+	color: #BA6222;
+}
+
+.channels-label {
+	margin-top: 3em;
+	color: #fff;
+}
+
+.channels-list {
+	margin-top: 2em;
+	color: #fff;
+}
+
+.send-bar {
+	position: absolute;
+	width: 100%;
+	left: 0px;
+	bottom: 1em;
+}
+
+.send-bar-bg {
+	width: 100%;
+	height: 100%;
+}
+
+@media(max-width: 800px) {
+	.side-bar {
+		width: 200px;
+	}
+}
+
+@media(max-width: 720px) {
+	#left-bar, #right-bar {
+		display: none;
+	}
+}

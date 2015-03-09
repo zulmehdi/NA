@@ -4,6 +4,7 @@
 
 html, body {
 	width: 100%;
+	height: 100%;
 	margin: 0px;
 	overflow-x: hidden;
 }
@@ -81,6 +82,16 @@ a {
 	text-shadow: 0 1px 10px rgba(0,0,0,0.5);
 }
 
+.site-name-inverse h1 {
+	color: #BA6222;
+	font-size: 24pt;
+	text-shadow: 0 1px 10px rgba(0,0,0,0.5);
+}
+
+.sign-up-site-name {
+	margin: 1em;
+}
+
 .sign-in-form {
 	float: none;
 	margin: 0 auto;
@@ -91,6 +102,10 @@ a {
 	margin: 0 auto;
 	position: relative;
 	text-align: center;
+}
+
+.sign-up {
+	margin-top: 1em;
 }
 
 .sign-up p {
@@ -129,6 +144,25 @@ footer {
 	
 }
 
+.sign-up-box h1 {
+	text-align: center;
+	color: #E49135;
+	margin-bottom: 1em;
+}
+
+.form-group label {
+	color: #BA6222;
+}
+
+.additional-actions {
+	margin-top: 1em;
+	text-align: center;
+}
+
+.additional-actions a {
+	color: #BA6222;
+}
+
 .devs {
 	position: relative;
 	display: inline;
@@ -152,14 +186,10 @@ footer {
 	padding-top: 3em;
 }
 
-.slack-info img {
-	height: 5em;
-}
-
-.slack-name {
-	font-size: 36pt;
-	vertical-align: middle;
-	margin-left: 0.25em;
+.sign-up-box {
+	float: none;
+	margin: 0 auto;
+	padding: 3em;
 }
 
 @media (max-width: 767px) {
