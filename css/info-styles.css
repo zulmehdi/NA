@@ -1,0 +1,64 @@
+.top-section {
+	position: relative;
+	background-color: #BA6222;
+	background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+	/*background-image: url("http://www.discprofiles.com/blog/wp-content/uploads/2012/12/meeting-iStock.jpg");*/
+	background-image: url("http://fairdealtourism.com/wp-content/uploads/2014/04/desert-safari-2.jpg");
+	padding: 3em;
+}
+
+.desc-section {
+	background-color: #fff;
+	background-color: #E49135;
+}
+
+.site-info {
+	color: #fff;
+	text-align: center;
+	width: 90%;
+	margin: 0 auto;
+}
+
+.more-section {
+	background-color: #fff;
+}
+
+.mobile-first-text {
+	position: relative;
+	width: 100%;
+	display: block;
+	color: #BA6222;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.mobile-img {
+	position: relative;
+	float: none;
+	width: 100%;
+	display: inline;
+	margin: 0 auto;
+}
+
+.mobile-devices-img {
+	float: left;
+	display: inline;
+}
+
+.mobile-devices-img .container {
+	position: absolute;
+}
+
+.mobile-img .container .row h3 {
+	vertical-align: middle;
+}
+
+.mobile-first-desc {
+	vertical-align: middle;
+	position: relative;
+	height: 100%;
+	left: 3em;
+}
