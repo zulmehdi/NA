@@ -192,6 +192,14 @@ footer {
 	padding: 3em;
 }
 
+.jspTrack {
+	background-color: #E49135;
+}
+
+.jspDrag {
+	background-color: #666;
+}
+
 @media (max-width: 767px) {
 	.quote {
 		font-size: 18pt;

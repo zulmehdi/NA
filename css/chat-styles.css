@@ -14,7 +14,7 @@ li {
 }
 
 .site-name {
-	margin: 3em 3em 0 1em;
+	margin: 3em 2em 0 1em;
 }
 
 .chat-bg {
@@ -83,6 +83,14 @@ li {
 	margin-bottom: 1em;
 }
 
+.online-user {
+	color: #0f0;
+}
+
+.online-status {
+	display: none;
+}
+
 /*ul#users-list li.online-user {
 	color: #fff;
 	list-style-image: url('../images/circle_green.png');
@@ -121,7 +129,7 @@ ul#users-list li.busy-user {
 	display: inline-block;
 	margin-left: 1em;
 	vertical-align: bottom;
-	max-width: 150px;
+	width: 60%;
 	white-space: nowrap;
 	overflow: hidden;
 }
