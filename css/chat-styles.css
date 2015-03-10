@@ -55,8 +55,18 @@ li {
 
 .channel-name {
 	color: #BA6222;
-	clear: both;
 	margin-left: 1em;
+	float: left;
+}
+
+#user-status h3 {
+	display: inline;
+	float: right;
+}
+
+.user-name {
+	float: right;
+	display: inline;
 }
 
 .channels-label, .users-label {
