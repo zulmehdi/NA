@@ -206,12 +206,24 @@ footer {
 	padding: 3em;
 }
 
+.pwd-validation-text {
+	color: #BA6222;
+}
+
 .jspTrack {
 	background-color: #E49135;
 }
 
 .jspDrag {
 	background-color: #666;
+}
+
+.alert-danger {
+	display: none;
+}
+
+.validation-text {
+	display: none;
 }
 
 @media (max-width: 767px) {

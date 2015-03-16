@@ -14,7 +14,7 @@ li {
 }
 
 .site-name {
-	margin: 3em 2em 0 1em;
+	margin: 3em 1em 0 1em;
 }
 
 .chat-bg {
@@ -162,16 +162,16 @@ ul#users-list li.busy-user {
 
 .messages-area {
 	position: absolute;
-	height: 100% - 1em;
 	width: 100%;
 	top: 5em;
 	bottom: 5em;
-	overflow: auto;
+	overflow: hidden;
 }
 
 .messages-area ul {
-	padding-left: 1em;
 	height: 100%;
+	overflow: scroll;
+	padding-left: 1em;
 }
 
 @media(max-width: 800px) {

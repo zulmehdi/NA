@@ -29,11 +29,17 @@
 				<form>
 					<div class="form-group">
 				  		<label for="first-name">First name</label>
-				    	<input type="text" class="form-control" id="first-name" placeholder="eg: John">
+				    	<input type="text" class="form-control" id="first-name" placeholder="eg: John" required="required">
+				    	<div id="first-name-validation-text" class="validation-text">
+				    		This field should not be empty
+				    	</div>
 				  	</div>
 				  	<div class="form-group">
 				  		<label for="last-name">Last name</label>
-				    	<input type="text" class="form-control" id="last-name" placeholder="eg: Doe">
+				    	<input type="text" class="form-control" id="last-name" placeholder="eg: Doe" required="required">
+				    	<div id="last-name-validation-text" class="validation-text">
+				    		This field should not be empty
+				    	</div>
 				  	</div>
 				  	<div class="form-group">
 				  		<label for="gender">Gender</label>
@@ -44,26 +50,166 @@
 				  	</div>
 					<div class="form-group">
 				  		<label for="email">Email address</label>
-				    	<input type="email" class="form-control" id="email" placeholder="john.doe@example.com">
+				    	<input type="email" class="form-control" id="email" placeholder="john.doe@example.com" required="required" title="Email should be in the format email@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+				    	<div id="email-validation-text" class="validation-text">
+				    		Email should be in the format "email@example.com"
+				    	</div>
 				  	</div>
 					<div class="form-group">
-				    	<label for="password">Password</label>
-					    <input type="password" class="form-control" id="password" placeholder="password">
+				    	<label for="password">Password*</label>
+					    <input type="password" class="form-control" id="password" placeholder="MyPassword1" title="Password must contain at least one number, one uppercase letter, one lowercase letter, and at least 6 characters" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+					    onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');
+  									if(this.checkValidity()) document.getElementById('confirm-password').pattern = this.value;">
+  						<div id="password-validation-text" class="validation-text">
+				    		Password must contain at least one number, one uppercase letter, one lowercase letter, and at least 6 characters
+				    	</div>
+					</div>
+					<div class="form-group">
+				    	<label for="password">Confirm password</label>
+					    <input type="password" class="form-control" id="confirm-password" placeholder="MyPassword1" title="Passwords do not match" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : '');">
+					    <div id="confirm-password-validation-text" class="validation-text">
+				    		Passwords do not match
+				    	</div>
 					</div>
 					<div class="checkbox">
 					    <label>
 					    	<input type="checkbox"> Keep me signed in
 					    </label>
 				  	</div>
-				  	<button type="submit" class="btn btn-primary">Submit</button>
+				  	<button type="button" class="btn btn-primary" onclick="signUp();">Submit</button>
 				  	<div class="additional-actions">
 				  		Have an account? <a href="signin.html">Sign in here</a>
+				  	</div>
+				  	<br />
+				  	<div class="pwd-validation-text">
+				  		* Password must contain at least one number, one uppercase letter, one lowercase letter, and at least 6 characters
 				  	</div>
 				</form>
 			</div>
 		</div>
 		
 	    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> 
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		
+		<script type="text/javascript">
+			function signUp() {
+				if(validateForm()) {
+					window.location = "chat.html";
+				}
+				
+			}
+		
+			function validateForm() {
+				var isFormValid = true;
+				
+				if(validateFirstName()) {
+					if(isFormValid !== false) {
+						isFormValid = true;
+					}
+				} else {
+					isFormValid = false;
+				}
+				
+				if(validateLastName()) {
+					if(isFormValid !== false) {
+						isFormValid = true;
+					}
+				} else {
+					isFormValid = false;
+				}
+				
+				if(validateEmail()) {
+					if(isFormValid !== false) {
+						isFormValid = true;
+					}
+				} else {
+					isFormValid = false;
+				}
+				
+				if(validatePassword()) {
+					if(isFormValid !== false) {
+						isFormValid = true;
+					}
+				} else {
+					isFormValid = false;
+				}
+				
+				if(validateConfirmPassword()) {
+					if(isFormValid !== false) {
+						isFormValid = true;
+					}
+				} else {
+					isFormValid = false;
+				}
+				
+				return isFormValid;
+			}
+		
+			function validateFirstName() {
+				var fname = document.getElementById("first-name").value;
+				var fnameValidationText = document.getElementById("first-name-validation-text");
+				
+				if(fname === "") {
+					fnameValidationText.style.display = "block";
+					
+					return false;
+				}
+				
+				fnameValidationText.style.display = "none";
+				return true;
+			}
+			
+			function validateLastName() {
+				var lname = document.getElementById("last-name").value;
+				var lnameValidationText = document.getElementById("last-name-validation-text");
+				
+				if(lname === "") {
+					lnameValidationText.style.display = "block";
+					
+					return false;
+				}
+				
+				lnameValidationText.style.display = "none";
+				return true;
+			}
+			
+			function validateEmail() {
+				var email = document.getElementById("email").value;
+				var emailValidationText = document.getElementById("email-validation-text");
+				
+			    var re = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+			    
+			    emailValidationText.style.display = re.test(email) ? "none" : "block";
+			    
+			    return re.test(email);
+			}
+			
+			function validatePassword() {
+				var password = document.getElementById("password").value;
+				var passwordValidationText = document.getElementById("password-validation-text");
+				
+				var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+				
+				passwordValidationText.style.display = re.test(password) ? "none" : "block";
+				
+				return re.test(password);
+			}
+			
+			function validateConfirmPassword() {
+				var password = document.getElementById("password").value;
+				var confirmPassword = document.getElementById("confirm-password").value;
+				var confirmPasswordValidationText = document.getElementById("confirm-password-validation-text");
+				
+				if(confirmPassword === password) {
+					confirmPasswordValidationText.style.display = "none";
+				
+					return true;
+				}
+				
+				confirmPasswordValidationText.style.display = "block";
+				
+				return false;
+			}
+		</script>
 	</body>
 </html>
