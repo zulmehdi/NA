@@ -28,27 +28,6 @@
 				<h1>Sign up</h1>
 				<form>
 					<div class="form-group">
-				  		<label for="first-name">First name</label>
-				    	<input type="text" class="form-control" id="first-name" placeholder="eg: John" required="required">
-				    	<div id="first-name-validation-text" class="validation-text">
-				    		This field should not be empty
-				    	</div>
-				  	</div>
-				  	<div class="form-group">
-				  		<label for="last-name">Last name</label>
-				    	<input type="text" class="form-control" id="last-name" placeholder="eg: Doe" required="required">
-				    	<div id="last-name-validation-text" class="validation-text">
-				    		This field should not be empty
-				    	</div>
-				  	</div>
-				  	<div class="form-group">
-				  		<label for="gender">Gender</label>
-				    	<select id="gender" class="form-control">
-						  <option>Male</option>
-						  <option>Female</option>
-						</select>
-				  	</div>
-					<div class="form-group">
 				  		<label for="email">Email address</label>
 				    	<input type="email" class="form-control" id="email" placeholder="john.doe@example.com" required="required" title="Email should be in the format email@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
 				    	<div id="email-validation-text" class="validation-text">
@@ -76,7 +55,7 @@
 					    	<input type="checkbox"> Keep me signed in
 					    </label>
 				  	</div>
-				  	<button type="button" class="btn btn-primary" onclick="signUp();">Submit</button>
+				  	<button id="submit-button" type="button" class="btn btn-primary">Submit</button>
 				  	<div class="additional-actions">
 				  		Have an account? <a href="signin.html">Sign in here</a>
 				  	</div>
@@ -90,126 +69,18 @@
 		
 	    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<script src="js/strophejs-1.2.0/strophe.js"></script>
+		<script src="js/flensed.js"></script>
+		<script src="js/flXHR.js"></script>
+		<script src="js/strophejs-1.2.0/plugins/strophe.flxhr.min.js"></script>
+		<script src="js/strophejs-1.2.0/plugins/strophe.register.js"></script>
 		
-		<script type="text/javascript">
-			function signUp() {
-				if(validateForm()) {
-					window.location = "chat.html";
-				}
-				
-			}
+		<script src="js/chatae-scripts/constants.js"></script>
+		<script src="js/chatae-scripts/utils.js"></script>
+		<script src="js/chatae-scripts/connection.js"></script>
+		<script src="js/chatae-scripts/statehandlers.js"></script>
 		
-			function validateForm() {
-				var isFormValid = true;
-				
-				if(validateFirstName()) {
-					if(isFormValid !== false) {
-						isFormValid = true;
-					}
-				} else {
-					isFormValid = false;
-				}
-				
-				if(validateLastName()) {
-					if(isFormValid !== false) {
-						isFormValid = true;
-					}
-				} else {
-					isFormValid = false;
-				}
-				
-				if(validateEmail()) {
-					if(isFormValid !== false) {
-						isFormValid = true;
-					}
-				} else {
-					isFormValid = false;
-				}
-				
-				if(validatePassword()) {
-					if(isFormValid !== false) {
-						isFormValid = true;
-					}
-				} else {
-					isFormValid = false;
-				}
-				
-				if(validateConfirmPassword()) {
-					if(isFormValid !== false) {
-						isFormValid = true;
-					}
-				} else {
-					isFormValid = false;
-				}
-				
-				return isFormValid;
-			}
+		<script src="js/chatae-scripts/signup.js"></script>
 		
-			function validateFirstName() {
-				var fname = document.getElementById("first-name").value;
-				var fnameValidationText = document.getElementById("first-name-validation-text");
-				
-				if(fname === "") {
-					fnameValidationText.style.display = "block";
-					
-					return false;
-				}
-				
-				fnameValidationText.style.display = "none";
-				return true;
-			}
-			
-			function validateLastName() {
-				var lname = document.getElementById("last-name").value;
-				var lnameValidationText = document.getElementById("last-name-validation-text");
-				
-				if(lname === "") {
-					lnameValidationText.style.display = "block";
-					
-					return false;
-				}
-				
-				lnameValidationText.style.display = "none";
-				return true;
-			}
-			
-			function validateEmail() {
-				var email = document.getElementById("email").value;
-				var emailValidationText = document.getElementById("email-validation-text");
-				
-			    var re = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
-			    
-			    emailValidationText.style.display = re.test(email) ? "none" : "block";
-			    
-			    return re.test(email);
-			}
-			
-			function validatePassword() {
-				var password = document.getElementById("password").value;
-				var passwordValidationText = document.getElementById("password-validation-text");
-				
-				var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
-				
-				passwordValidationText.style.display = re.test(password) ? "none" : "block";
-				
-				return re.test(password);
-			}
-			
-			function validateConfirmPassword() {
-				var password = document.getElementById("password").value;
-				var confirmPassword = document.getElementById("confirm-password").value;
-				var confirmPasswordValidationText = document.getElementById("confirm-password-validation-text");
-				
-				if(confirmPassword === password) {
-					confirmPasswordValidationText.style.display = "none";
-				
-					return true;
-				}
-				
-				confirmPasswordValidationText.style.display = "block";
-				
-				return false;
-			}
-		</script>
 	</body>
 </html>

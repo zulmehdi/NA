@@ -16,7 +16,6 @@
     	<![endif]-->
 	</head>
 	<body>
-
 		<nav class="navbar navbar-inverse navbar-static-top">
   			<div class="container-fluid">
     			<div class="navbar-header">
@@ -31,26 +30,19 @@
 				<form>
 					<div class="form-group">
 				  		<label for="email">Email address</label>
-				    	<input type="email" class="form-control" id="email" placeholder="email@example.com" required title="Emails should be in the format email@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+				    	<input type="email" class="form-control" id="email" placeholder="email@example.com" required="required" title="Emails should be in the format email@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
 				  	</div>
 					<div class="form-group">
 				    	<label for="password">Password</label>
-					    <input type="password" class="form-control" id="password" placeholder="password" required>
+					    <input type="password" class="form-control" id="password" placeholder="password" required="required">
 					</div>
 					<div class="checkbox">
 					    <label>
 					    	<input type="checkbox"> Keep me signed in
 					    </label>
 				  	</div>
-				  	<button id="submit-button" type="button" class="btn btn-primary">Submit</button>
+				  	<button type="button" class="btn btn-primary" onclick="signIn();">Submit</button>
 				  	<div class="additional-actions">
-                    <div class="additional-actions">
-				  	
-				  	<div id="connection-status">
-				  		
-				  	</div>
-				  	
-				  	</div>
 				  		Forgot your password? <a href="#">Click here!</a>
 				  	</div>
 				  	<div class="additional-actions">
@@ -61,20 +53,20 @@
 		</div>
 		
 	    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-		<script src="js/strophejs-1.2.0/strophe.js"></script>
-		<script src="js/flensed.js"></script>
-		<script src="js/flXHR.js"></script>
-		<script src="js/strophejs-1.2.0/plugins/strophe.flxhr.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> 
 		
-		<script src="js/chatae-scripts/constants.js"></script>
-		<script src="js/chatae-scripts/utils.js"></script>
-		<script src="js/chatae-scripts/connection.js"></script>
-		<script src="js/chatae-scripts/chataeconnection.js"></script>
-		<script src="js/chatae-scripts/statehandlers.js"></script>
-		<script src="js/chatae-scripts/chataestatehandlers.js"></script>
-		
-		<script src="js/chatae-scripts/signin.js"></script>
-		
+		<script type="text/javascript">
+			function signIn() {
+				var email = document.getElementById("email").value;
+				var password = document.getElementById("password").value;
+				
+				if(email === "zul110@gmail.com" && password === "Zul123") {
+					document.getElementById("invalid-creds").style.display = "none";
+					window.location = "chat.html";
+				} else {
+					document.getElementById("invalid-creds").style.display = "block";
+				}
+			}
+		</script>
 	</body>
 </html>

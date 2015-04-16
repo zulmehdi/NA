@@ -1,0 +1,490 @@
+/////// --------- SIGN IN PAGE --------- ////////
+<script type="text/javascript">
+		var connection;
+		var chatAEConnection;
+		
+		function on_roster(iq) {
+			var s =  "";
+			$(iq).find('item').each(function() {
+				var jid = $(this).attr('jid');
+				
+				s += jid + "\n";
+			});
+			
+			console.log(s);
+		}
+		
+		function checkRoster(iq) {
+			var found =  false;
+			$(iq).find('item').each(function() {
+				var jid = $(this).attr('jid');
+				
+				if(jid === connection.jid) {
+					found = true;
+				}
+			});
+			
+			return found;
+		}
+		
+		function onConnect()
+				{
+					status = connection.getStatus();
+					console.log("___" + status + "___");
+					if(status === "5") {
+						// We add a listener that will catch the opposite user's msgs
+							//connection.addHandler(onMessage, null, 'message', null, null,  null); 
+							
+							//console.log($pres().toString());
+							
+			               	// We send online presense to the server. (pub sub concept)
+							//connection.send($pres().tree());
+							
+							var iq = $iq({type: 'get'}).c('query', {xmlns: 'jabber:iq:roster'});
+							connection.sendIQ(iq, on_roster);
+							
+							setCookie("jid", connection.jid, "");
+							setCookie("rid", connection._proto.rid, "");
+							setCookie("sid", connection._proto.sid, "");
+							
+							console.log("__" + connection._proto.rid + ".." + connection._proto.sid + "--");
+							
+							chatAEConnection.connect("chatae@dukgo.com", "mehdi110", onChatAEConnect);
+					}
+				}
+				
+				function setCookie(name, value, expiry) {
+					document.cookie = name + "=" + value + "; expires=" + expiry + ";path=/";
+					console.log("cookie " + name + " set with value " + value);
+				}
+				
+				function onChatAEConnect()
+				{
+					status = chatAEConnection.getStatus();
+					
+					if(status === "5") {
+						// We add a listener that will catch the opposite user's msgs
+							//connection.addHandler(onMessage, null, 'message', null, null,  null); 
+							
+							//console.log($pres().toString());
+							
+			               	// We send online presense to the server. (pub sub concept)
+							//connection.send($pres().tree());
+							
+							// var iq = $iq({type: 'get'}).c('query', {xmlns: 'jabber:iq:roster'});
+							// connection.sendIQ(iq, on_roster);
+// 							
+							// setCookie("jid", connection.jid, "");
+							// setCookie("rid", connection._proto.rid, "");
+							// setCookie("sid", connection._proto.sid, "");
+// 							
+							// console.log("__" + connection._proto.rid + ".." + connection._proto.sid + "--");
+// 							
+							// window.location = "chat.html";
+							
+							var iq = $iq({type: 'get'}).c('query', {xmlns: 'jabber:iq:roster'});
+							chatAEConnection.sendIQ(iq, on_roster);
+							
+							$(document).trigger('contact_added', {
+																	jid: Strophe.getBareJidFromJid(connection.jid),
+																	name: connection.jid
+																});
+					}
+				}
+				
+				$(document).bind("contact_added", function (ev, data) {
+					 var iq = $iq({type: "set"}).c("query", {xmlns: "jabber:iq:roster"})
+					 .c("item", data);
+					 chatAEConnection.sendIQ(iq);
+					 console.log("added");
+					 
+					 window.location = "chat.html";
+					});
+				
+				function onAdded(iq) {
+					console.log("added ");
+				}
+				
+			function signIn() {
+				var SERVER = "http://bosh.metajack.im:5280/xmpp-httpbind";
+				var XMPP_DOMAIN = "dukgo.com"; //"192.168.2.11";
+				var email = document.getElementById("email").value;
+				var password = document.getElementById("password").value;
+				
+				connection = new Strophe.Connection(SERVER);
+				connection.connect(email+'@'+XMPP_DOMAIN, password, onConnect);
+				
+				chatAEConnection = new Strophe.Connection(SERVER);
+				
+				// if(email === "zul110@gmail.com" && password === "Zul123") {
+					// document.getElementById("invalid-creds").style.display = "none";
+					// window.location = "chat.html";
+				// } else {
+					// document.getElementById("invalid-creds").style.display = "block";
+				// }
+			// }
+			
+			// $(document).ready(function() {
+				// // We initialize the Strophe connection.
+				// connection = new Strophe.Connection(BOSH_SERVICE);
+				// connection.connect(xmpp_user+'@'+XMPP_DOMAIN, 'password', onConnect);
+			// });
+			}
+		</script>
+		
+------------------------------------------------------------------------------
+
+/////// ------------- SIGN UP PAGE ------------- /////////
+<script type="text/javascript">
+			var connection;
+			
+			var callback = function(status) {
+				if(status == Strophe.Status.REGISTER) {
+					console.log("register");
+					var email = $("#email").val();
+					var pass = $("#password").val();
+					
+					console.log(email + " " + pass);
+					
+					connection.register.fields.username = $("#email").val();
+					connection.register.fields.password = $("#password").val();
+					
+					connection.register.submit();
+					console.log("submitted");
+				} else if (status === Strophe.Status.REGISTERED) {
+			        console.log("registered!");
+			        connection.authenticate();
+			    } else if (status === Strophe.Status.CONNECTED) {
+			        console.log("logged in!");
+			    } else if (status === Strophe.Status.CONFLICT) {
+			        console.log("Contact already existed!");
+			    } else if (status === Strophe.Status.NOTACCEPTABLE) {
+			        console.log("Registration form not properly filled out.");
+			    } else if (status === Strophe.Status.REGIFAIL) {
+			        console.log("The Server does not support In-Band Registration");
+			    } else {
+			        // Do other stuff
+			    }
+			};
+			
+			function signUp() {
+				
+				var SERVER = "http://bosh.metajack.im:5280/xmpp-httpbind";
+				var XMPP_DOMAIN = "dukgo.com"; //"192.168.2.11";
+				
+				connection = new Strophe.Connection(SERVER);
+				
+				connection.register.connect(XMPP_DOMAIN, callback);
+				
+				
+				//if(validateForm()) {
+					
+					//window.location = "chat.html";
+				//}
+				
+			}
+		
+			function validateForm() {
+				var isFormValid = true;
+				
+				if(validateFirstName()) {
+					if(isFormValid !== false) {
+						isFormValid = true;
+					}
+				} else {
+					isFormValid = false;
+				}
+				
+				if(validateLastName()) {
+					if(isFormValid !== false) {
+						isFormValid = true;
+					}
+				} else {
+					isFormValid = false;
+				}
+				
+				if(validateEmail()) {
+					if(isFormValid !== false) {
+						isFormValid = true;
+					}
+				} else {
+					isFormValid = false;
+				}
+				
+				if(validatePassword()) {
+					if(isFormValid !== false) {
+						isFormValid = true;
+					}
+				} else {
+					isFormValid = false;
+				}
+				
+				if(validateConfirmPassword()) {
+					if(isFormValid !== false) {
+						isFormValid = true;
+					}
+				} else {
+					isFormValid = false;
+				}
+				
+				return isFormValid;
+			}
+		
+			function validateFirstName() {
+				var fname = document.getElementById("first-name").value;
+				var fnameValidationText = document.getElementById("first-name-validation-text");
+				
+				if(fname === "") {
+					fnameValidationText.style.display = "block";
+					
+					return false;
+				}
+				
+				fnameValidationText.style.display = "none";
+				return true;
+			}
+			
+			function validateLastName() {
+				var lname = document.getElementById("last-name").value;
+				var lnameValidationText = document.getElementById("last-name-validation-text");
+				
+				if(lname === "") {
+					lnameValidationText.style.display = "block";
+					
+					return false;
+				}
+				
+				lnameValidationText.style.display = "none";
+				return true;
+			}
+			
+			function validateEmail() {
+				var email = document.getElementById("email").value;
+				var emailValidationText = document.getElementById("email-validation-text");
+				
+			    var re = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+			    
+			    emailValidationText.style.display = re.test(email) ? "none" : "block";
+			    
+			    return re.test(email);
+			}
+			
+			function validatePassword() {
+				var password = document.getElementById("password").value;
+				var passwordValidationText = document.getElementById("password-validation-text");
+				
+				var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+				
+				passwordValidationText.style.display = re.test(password) ? "none" : "block";
+				
+				return re.test(password);
+			}
+			
+			function validateConfirmPassword() {
+				var password = document.getElementById("password").value;
+				var confirmPassword = document.getElementById("confirm-password").value;
+				var confirmPasswordValidationText = document.getElementById("confirm-password-validation-text");
+				
+				if(confirmPassword === password) {
+					confirmPasswordValidationText.style.display = "none";
+				
+					return true;
+				}
+				
+				confirmPasswordValidationText.style.display = "block";
+				
+				return false;
+			}
+		</script>
+--------------------------------------------------------------------------
+
+////////// ------------ CHAT PAGE ------------- //////////
+<script type="text/javascript">
+			var connection;
+			var chatAEConnectoin;
+			
+			var jid;
+			var rid;
+			var sid;
+			
+			loginUser();
+			
+			attachUser();
+			
+			loadUsers();
+			
+			function loginUser() {
+				if(getCookie("jid") === "" || getCookie("rid") === "" || getCookie("sid") === "") {
+					goToSignInPage();
+				}
+				
+				jid = getCookie("jid");
+				rid = parseInt(getCookie("rid"));
+				sid = getCookie("sid");
+				
+				console.log(jid + " " + rid + " " + sid);
+			}
+			
+			function loadUsers() {
+				var SERVER = "http://bosh.metajack.im:5280/xmpp-httpbind";
+				var XMPP_DOMAIN = "dukgo.com"; //"192.168.2.11";
+				
+				chatAEConnection = new Strophe.Connection(SERVER);
+				chatAEConnection.connect("chatae@" + XMPP_DOMAIN, "mehdi110", chatAEOnConnect);
+			}
+			
+			function chatAEOnConnect() {
+				status = chatAEConnection.getStatus();
+					
+				if(status === "5") {
+					var iq = $iq({type: 'get'}).c('query', {xmlns: 'jabber:iq:roster'});
+					chatAEConnection.sendIQ(iq, chatae_on_roster);
+				} else {
+					alert("Couldn't get users' list");
+					//loadUsers();
+				}
+			}
+			
+			function onAttach()
+				{
+					status = connection.getStatus();
+					console.log("___" + status + "___");
+					
+					if(status === "8") {
+						var iq = $iq({type: 'get'}).c('query', {xmlns: 'jabber:iq:roster'});
+						connection.sendIQ(iq, on_roster);
+					} else {
+						goToSignInPage();
+					}
+				}
+				
+				function goToSignInPage() {
+					alert("Coultn't sign you in. Please sign in again.");
+					window.location = "signin.html";
+				}
+				
+				function on_roster(iq) {
+					var s =  "";
+					$(iq).find('item').each(function() {
+						var jid = $(this).attr('jid');
+						jid = Strophe.getNodeFromJid(jid);
+						
+						//s += jid + "\n";
+						
+						var ul = document.getElementById("users-list");
+						var li = document.createElement("li");
+							var a = document.createElement("a");
+								a.href = "#";
+									var divUser = document.createElement("div");
+										divUser.className = "user";
+											var divInfo = document.createElement("div");
+												divInfo.className = "info";
+												var b = document.createElement("b");
+													b.appendChild(document.createTextNode(jid));
+												var divLastText = document.createElement("div");
+													divLastText.className = "last-text";
+													divLastText.appendChild(document.createTextNode("last text"));
+											divInfo.appendChild(b);
+											divInfo.appendChild(divLastText);
+										divUser.appendChild(divInfo);
+									a.appendChild(divUser);
+							li.appendChild(a);
+						ul.appendChild(li);
+					});
+					
+					//console.log(s);
+				}
+				
+				function chatae_on_roster(iq) {
+					var s =  "";
+					$(iq).find('item').each(function() {
+						var chatae_jid = $(this).attr('jid');
+						chatae_jid = Strophe.getNodeFromJid(chatae_jid);
+						
+						//s += jid + "\n";
+						if(chatae_jid !== Strophe.getNodeFromJid(jid)) {
+							var ul = document.getElementById("channels-list");
+							var li = document.createElement("li");
+								var a = document.createElement("a");
+									a.href = "#";
+									a.appendChild(document.createTextNode(chatae_jid));
+								li.appendChild(a);
+							ul.appendChild(li);
+						}
+					});
+					
+					//console.log(s);
+				}
+			
+			function attachUser() {
+				var SERVER = "http://bosh.metajack.im:5280/xmpp-httpbind";
+				var XMPP_DOMAIN = "dukgo.com"; //"192.168.2.11";
+				connection = new Strophe.Connection(SERVER);
+				
+				connection.attach(jid, sid, rid, onAttach);
+			}
+		
+			function getCookie(cname) {
+			    var name = cname + "=";
+			    var ca = document.cookie.split(';');
+			    for(var i=0; i<ca.length; i++) {
+			        var c = ca[i];
+			        while (c.charAt(0)==' ') c = c.substring(1);
+			        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+			    }
+			    return "";
+			}
+			
+			$(function() {
+				$('.side-bar').jScrollPane();
+				//$('.messages').jScrollPane();
+				
+				$("#send-input").focus();
+				
+				$('.messages').animate({scrollTop:$('.messages').height()}, 'slow');
+				
+				$('#send-input').keypress(function(e) {
+				  var code = e.keyCode || e.which;
+				
+				  if( code === 13 ) {
+				  	var message = document.getElementById("send-input");
+				  	sendMessage(message);
+				    e.preventDefault();
+				    return false; 
+				  }
+				});
+			});
+			
+			function sendMessage(message) {
+				if(message.value !== null || message.value !== "" || message.value !== " ") {
+					var ul = document.getElementById("messages");
+						var li = document.createElement("li");
+							var rootDiv = document.createElement("div");
+								var userinfo = document.createElement("div");
+								userinfo.className = "user-info";
+									var img = document.createElement("img");
+									img.src = "images/drwhochibieye1.png";
+									img.width = 30;
+									img.alt = "user image";
+									var b = document.createElement("b");
+									b.appendChild(document.createTextNode("user name"));
+									var i = document.createElement("i");
+									i.appendChild(document.createTextNode("10-March-2015 1:00PM"));
+								userinfo.appendChild(img);
+								userinfo.appendChild(b);
+								userinfo.appendChild(i);
+								var messageDiv = document.createElement("div");
+								messageDiv.className = "message";
+								messageDiv.appendChild(document.createTextNode(message.value));
+							rootDiv.appendChild(userinfo);
+							rootDiv.appendChild(messageDiv);
+						li.appendChild(rootDiv);
+					ul.appendChild(li);
+					
+					$('.messages').animate({scrollTop:$('.messages').height()}, 'slow');
+					
+					message.value = "";
+					message.focus();
+				}
+			}
+		</script>
