@@ -1,6 +1,9 @@
 $(document).bind("chatConnecting", function() {
 	console.log("connecting");
-	connstatus("Connecting");
+	//ChatAEConnection.connection.options.sync = true; // Switch to using synchronous requests since this is typically called onUnload.
+    //ChatAEConnection.connection.flush();
+    //ChatAEConnection.connection.disconnect();
+	//connstatus("Connecting");
 });
 
 $(document).bind("chatConnected", function() {
@@ -14,6 +17,14 @@ $(document).bind("chatConnected", function() {
 	Connection.connection.send($pres().c("priority").t("127"));
 				
 	ChatAEConnection.connection.sendIQ(iq, Roster.getChatAERoster);
+	Connection.connection.sendIQ(iq, Roster.getUserRoster);
+	
+	ChatAEConnection.connection.addHandler(Roster.onChatAERosterChanged, "jabber:iq:roster", "iq", "set");
+	Connection.connection.addHandler(Roster.onRosterChanged, "jabber:iq:roster", "iq", "set");
+	
+	setInterval(function(){
+	 	Connection.connection.send($pres());
+ 	}, 1000);
 });
 
 $(document).bind("chatConnfail", function() {
@@ -37,17 +48,34 @@ $(document).bind("chatDisconnected", function() {
 });
 
 $(document).bind("chatAttached", function() {
-	//connstatus("attached");
-	
-	ChatAEConnection.connection.addHandler(Chat.receiveMessage, null, "message", "chat");
+	log("attached");
 	
 	var iq = $iq({type: "get"})
-			.c("query", {xmlns: "jabber:iq:roster"});
-			
+				.c("query", {xmlns: "jabber:iq:roster"});
+				
+	ChatAEConnection.connection.addHandler(Chat.receiveMessage, null, "message", "chat");
+				
 	ChatAEConnection.connection.send($pres().c("priority").t("127"));
 	Connection.connection.send($pres().c("priority").t("127"));
 	
 	ChatAEConnection.connection.sendIQ(iq, Roster.getChatAERoster);
+	Connection.connection.sendIQ(iq, Roster.getUserRoster);
+	
+	ChatAEConnection.connection.addHandler(Roster.onChatAERosterChanged, "jabber:iq:roster", "iq", "set");
+	Connection.connection.addHandler(Roster.onRosterChanged, "jabber:iq:roster", "iq", "set");
+	
+	log("chatae attached end");
+	
+	// ChatAEConnection.connection.addHandler(Chat.receiveMessage, null, "message", "chat");
+// 	
+	// var iq = $iq({type: "get"})
+			// .c("query", {xmlns: "jabber:iq:roster"});
+// 			
+	// ChatAEConnection.connection.send($pres().c("priority").t("127"));
+	// Connection.connection.send($pres().c("priority").t("127"));
+// 	
+	// ChatAEConnection.connection.sendIQ(iq, Roster.getChatAERoster);
+	// //Connection.connection.sendIQ(iq, Roster.getUserRoster);
 });
 
 $(document).bind("chatRedirect", function() {

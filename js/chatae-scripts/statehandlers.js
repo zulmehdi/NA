@@ -1,10 +1,10 @@
 $(document).bind("connecting", function() {
-	console.log("connecting");
-	connstatus("Connecting");
+	log("connecting");
+	//connstatus("Connecting");
 });
 
 $(document).bind("connected", function() {
-	connstatus("Connected");
+	log("Connected");
 
 	setCookie("jid", Connection.connection.jid, "");
 	setCookie("rid", Connection.connection._proto.rid, "");
@@ -12,15 +12,17 @@ $(document).bind("connected", function() {
 	
 	Connection.connection.send($pres().c("priority").t("127"));
 	
-	ChatAEConnection.signIn();
+	goToPage("chat.html");
+	
+	//ChatAEConnection.signIn();
 });
 
 $(document).bind("connfail", function() {
-	connstatus("connection failed");
+	log("connection failed");
 });
 
 $(document).bind("authenticating", function() {
-	connstatus("authenticating");
+	console.log("authenticating");
 });
 
 $(document).bind("authfail", function() {
@@ -28,47 +30,79 @@ $(document).bind("authfail", function() {
 });
 
 $(document).bind("disconnecting", function() {
-	connstatus("disconnecting");
+	log("disconnecting");
 });
 
 $(document).bind("disconnected", function() {
-	connstatus("disconnected");
+	log("disconnected");
 });
 
 $(document).bind("attached", function() {
 	//connstatus("attached");
 	
-	Connection.connection.addHandler(Chat.receiveMessage, null, "message", "chat");
+	Connection.connection.xmlOutput = function(body) {
+		var rid = $(body).attr("rid");
+		
+		setCookie("rid", rid, "");
+	};
 	
-	Connection.connection.send($pres().c("priority").t("127"));
+	Connection.joined = false;
+	Connection.participants = {};
+	
+	Connection.connection.addHandler(Chat.receiveMessage, null, "message", "chat");
+	Connection.connection.addHandler(Chat.receiveGroupMessage, null, "message", "groupchat");
 	
 	var iq = $iq({type: "get"})
 			.c("query", {xmlns: "jabber:iq:roster"});
 	
 	Connection.connection.sendIQ(iq, Roster.getUserRoster);
+	Connection.connection.addHandler(Roster.onRosterChanged, "jabber:iq:roster", "iq", "set");
+	
+	$("#logged-in-user").text(Strophe.getNodeFromJid(jid));
+	
+	Connection.connection.addHandler(Group.onPresence, null, "presence");
+	
+	Connection.connection.muc.init(Connection.connection);
+	
+	var d = $pres({'from': Strophe.getNodeFromJid(jid), 'to': "jwchat@conference.jwchat.org" + '/' + Strophe.getNodeFromJid(jid)});
+	Connection.connection.send(d.tree());
+	
+	iq = $iq({
+	    to: Constants.GROUP_ROOM,
+	    type: 'set'
+	}).c("query", {
+	    xmlns: Strophe.NS.MUC_OWNER
+	});
+	iq.c("x", {
+	    xmlns: "jabber:x:data",
+	    type: "submit"
+	});
+	
+	Connection.connection.sendIQ(iq.tree(), function () { console.log('success'); }, function (err) { console.log('error', err); });
+	
+	log("attached end");
 });
 
 $(document).bind("redirect", function() {
-	connstatus("redirect");
+	log("redirect");
 });
 
 $(document).bind("error", function() {
-	connstatus("error");
+	log("error");
 });
 
-$(document).bind("register", function(event, username, password) {
-	connection.register.fields.username = username;
-	connection.register.fields.password = password;
+$(document).bind("register", function() {
+	Connection.connection.register.fields.username = $("#email").val();
+	Connection.connection.register.fields.password = $("#password").val();
 	
-	connection.register.submit();
+	Connection.connection.register.submit();
 	
-	connstatus("submitted");
+	//connstatus("submitted");
 });
 
 $(document).bind("registered", function() {
-	connstatus("registered");
+	//connstatus("registered");
 	
-	Connection.connection.authenticate();
 });
 
 $(document).bind("regifail", function() {

@@ -1,3 +1,19 @@
+$(document).bind("addcontact", function(event, data) {
+	var iq = $iq({type: "set"})
+				.c("query", { xmlns: "jabber:iq:roster"})
+					.c("item", data);
+					
+	var subscribe = $pres({to: data.jid, "type": "subscribe"});
+ 	ChatAEConnection.connection.send(subscribe);
+	
+	ChatAEConnection.connection.sendIQ(iq, onAdded);
+	//goToPage("chat.html");
+});
+
+function onAdded(iq) {
+	goToPage("chat.html");
+}
+
 function log(s) {
 	console.log(s);
 }
@@ -106,4 +122,8 @@ function formatDate(date) {
 
     return month + "/" + day + "/" + year + " " + hourFormatted + ":" +
             minuteFormatted + morning;
+}
+
+function getUsername(username) {
+	return username.replace("user-", "").replace("channel-", "");
 }

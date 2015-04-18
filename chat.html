@@ -37,8 +37,15 @@
 				
 				<div class="channels-list">
 					<ul id="channels-list">
-						<li id="user">
-							<a href="#">chatae</a>
+						<li class="user" id="channel-ChatAE">
+							<div class="userinfo">
+								<b class="username">
+									ChatAE
+									</b>
+								<div class="status">
+									
+								</div>
+							</div>
 						</li>
 					</ul>
 				</div>
@@ -46,26 +53,15 @@
 			
 			<div class="chat-area col-md-8">
 				<div class="channel-name">
-					<h3>#general</h3>
-					<h6 class="online-status online-user">online</h6>
+					<h3>chatae</h3>
+					<h6 class="add-or-remove add-user"><a>+ add</a></h6>
 				</div>
 				
 				<div class="clr"></div>
 				
 				<div id="messages-area" class="messages-area">
 					<ul id="messages" class="messages">
-						<li>
-							<div>
-								<div class="user-info">
-									<img src="images/drwhochibieye1.png" width="30" alt="user image" />
-									<b>user name</b>
-									<i>10-Mar-2015 1:00PM</i>
-								</div>
-								<div class="message">
-									hello world first
-								</div>
-							</div>
-						</li>
+						
 					</ul>
 				</div>
 				
@@ -88,20 +84,21 @@
 			<div id="right-bar" class="side-bar col-md-2">
 				<div class="site-name">
 					<div class="row">
-					 <a href="#">
-								<div class="user">
-									<div class="info">
-										<h3>
-											<b>zul110</b>
-										</h3>
-									</div>
-								</div>
-							</a>
+						<div class="logged-in-user">
+							<div class="info">
+								<h3>
+									<b id="logged-in-user"></b>
+								</h3>
+								<a href="#">
+									<div id="logout">logout</div>
+								</a>
+							</div>
+						</div>
 					</div><!-- /.row -->
 				</div>
 				
 				<div class="users-label">
-					<h3>Users</h3>
+					<h3>Friends</h3>
 				</div>
 				
 				<div class="users-list">
@@ -121,6 +118,12 @@
 		<script src="js/flensed.js"></script>
 		<script src="js/flXHR.js"></script>
 		<script src="js/strophejs-1.2.0/plugins/strophe.flxhr.min.js"></script>
+		<script src="js/strophejs-1.2.0/plugins/strophe.muc.js"></script>
+		
+		<script src="js/chatae-scripts/user.js"></script>
+		<script src="js/chatae-scripts/users.js"></script>
+		
+		<script src="js/chatae-scripts/Group.js"></script>
 		
 		<script src="js/chatae-scripts/constants.js"></script>
 		<script src="js/chatae-scripts/utils.js"></script>
@@ -132,6 +135,7 @@
 		<script src="js/chatae-scripts/chataestatehandlers.js"></script>
 		<script src="js/chatae-scripts/chatstatehandlers.js"></script>
 		
+		<script src="js/chatae-scripts/message.js"></script>
 		<script src="js/chatae-scripts/messages.js"></script>
 		
 		<script src="js/chatae-scripts/messaging.js"></script>

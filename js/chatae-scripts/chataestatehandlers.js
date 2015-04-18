@@ -3,7 +3,7 @@ $(document).bind("chataeConnecting", function() {
 });
 
 $(document).bind("chataeConnected", function() {
-	connstatus("ChatAE Connected");
+	//connstatus("ChatAE Connected");
 	
 	setCookie("chatAEjid", ChatAEConnection.connection.jid, "");
 	setCookie("chatAErid", ChatAEConnection.connection._proto.rid, "");

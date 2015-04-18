@@ -10,19 +10,6 @@ $("#submit-button").click(function() {
 	Connection.signIn(username, domain, password);
 });
 
-$(document).bind("addcontact", function(event, data) {
-	var iq = $iq({type: "set"})
-				.c("query", { xmlns: "jabber:iq:roster"})
-					.c("item", data);
-	
-	ChatAEConnection.connection.sendIQ(iq, onAdded);
-	//goToPage("chat.html");
-});
-
-function onAdded(iq) {
-	goToPage("chat.html");
-}
-
 function connstatus(cstatus) {
 	$("#connection-status").text(cstatus);
 }

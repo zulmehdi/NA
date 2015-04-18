@@ -93,13 +93,23 @@ li {
 	margin-bottom: 1em;
 }
 
-.online-user {
-	color: #0f0;
+.online .userinfo .status {
+	color: #0F0;
 }
 
-.online-status {
-	display: none;
+.away .userinfo .status {
+	color: #FFFF00;
 }
+
+.offline .userinfo .status {
+	color: #FF0000;
+}
+
+.userinfo .status {
+	color: #AEAEAE;
+}
+
+
 
 /*ul#users-list li.online-user {
 	color: #fff;

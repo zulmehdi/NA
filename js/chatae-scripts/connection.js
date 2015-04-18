@@ -9,6 +9,9 @@ var Connection = {
 	domain: "",
 	password: "",
 	
+	joined: null,
+	participants: null,
+	
 	initAttachment: function() {
 		this.connection = new Strophe.Connection(Constants.SERVER);
 	},
@@ -17,6 +20,8 @@ var Connection = {
 		this.username = username;
 		this.domain = domain;
 		this.password = password;
+		
+		this.jid = username + "@" + domain;
 		
 		this.connection = new Strophe.Connection(Constants.SERVER);
 	},
@@ -67,16 +72,20 @@ var Connection = {
 	
 	onRegister: function(status) {
 		if(status == Strophe.Status.REGISTER) {
-			$(document).trigger("register", [this.username, this.password]);
+			$(document).trigger("register");
 		} else if (status === Strophe.Status.REGISTERED) {
 	        console.log("registered!");
-	        connection.authenticate();
+	        Connection.signIn(Connection.username, Connection.domain, Connection.password);
+	        $(document).trigger("registered");
 	    } else if (status === Strophe.Status.REGIFAIL) {
 	        console.log("The Server does not support In-Band Registration");
+	        $(document).trigger("regifail");
 	    } else if (status === Strophe.Status.CONFLICT) {
 	        console.log("Contact already existed!");
+	        $(document).trigger("conflict");
 	    } else if (status === Strophe.Status.NOTACCEPTABLE) {
 	        console.log("Registration form not properly filled out.");
+	        $(document).trigger("notacceptable");
 	    } else if(status === 3) {
 			$(document).trigger("authenticating");
 		} else if(status === 1) {

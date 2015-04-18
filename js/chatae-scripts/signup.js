@@ -13,8 +13,3 @@ $("#submit-button").click(function() {
 	}
 });
 
-function connstatus(cstatus) {
-	console.log(cstatus);
-	//$("#connection-status").text(cstatus);
-}
-
